@@ -1,0 +1,26 @@
+
+.reactflow-custom-node {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    height: auto;
+    border: 1px solid darkgray;
+    padding: 5px;
+    border-radius: 5px;
+    background: lightgray;
+  }
+  
+  .reactflow-custom-node label {
+    display: block;
+    color: #777;
+    font-size: 12px;
+    margin-left: 20px;
+  }
+  
+  .reactflow-custom-node .icon{
+    width: 48px;
+    height:48px;
+    float: left;
+    padding:  1px;
+  }
