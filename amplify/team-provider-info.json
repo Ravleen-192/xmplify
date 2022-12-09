@@ -1,15 +1,23 @@
 {
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-xmplify-dev-100159-authRole",
-      "UnauthRoleArn": "arn:aws:iam::211544418920:role/amplify-xmplify-dev-100159-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::211544418920:role/amplify-xmplify-dev-100159-authRole",
-      "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-xmplify-dev-100159-deployment",
-      "UnauthRoleName": "amplify-xmplify-dev-100159-unauthRole",
-      "StackName": "amplify-xmplify-dev-100159",
-      "StackId": "arn:aws:cloudformation:us-west-2:211544418920:stack/amplify-xmplify-dev-100159/8efd3df0-777a-11ed-b185-02a43700faf5",
-      "AmplifyAppId": "d1bl5pyb64i8iv"
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-xmplify-dev-100159-authRole",
+            "UnauthRoleArn": "arn:aws:iam::211544418920:role/amplify-xmplify-dev-100159-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::211544418920:role/amplify-xmplify-dev-100159-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-xmplify-dev-100159-deployment",
+            "UnauthRoleName": "amplify-xmplify-dev-100159-unauthRole",
+            "StackName": "amplify-xmplify-dev-100159",
+            "StackId": "arn:aws:cloudformation:us-west-2:211544418920:stack/amplify-xmplify-dev-100159/8efd3df0-777a-11ed-b185-02a43700faf5",
+            "AmplifyAppId": "d1bl5pyb64i8iv"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d1bl5pyb64i8iv",
+                    "type": "cicd"
+                }
+            }
+        }
     }
-  }
 }

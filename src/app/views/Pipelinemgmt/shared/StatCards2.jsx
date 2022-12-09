@@ -46,6 +46,8 @@ const StatCards2 = () => {
             </FabIcon>
             <H3 textcolor={'#08ad6c'}>Pipelines</H3>
             <hr /><Button sx={{ background: 'rgba(9, 182, 109, 0.15)' }}><Link className="link" to='/pipelinecreate/default'><strong>Create +</strong></Link></Button>
+            {/* <Button sx={{ background: 'rgba(9, 182, 109, 0.15)' }}><Link className="link" to='/pipelineupdate/default'><strong>Create +</strong></Link></Button>
+          */}
           </ContentBox>
 
           <ContentBox sx={{ pt: 2 }}>

@@ -1,14 +1,11 @@
 import { Grid, styled, useTheme } from '@mui/material';
-import { Fragment } from 'react';
-
+import { Fragment, useState, useEffect } from 'react';
+import axios from 'axios';
 import RowCards from './shared/RowCards';
 import StatCards from './shared/StatCards';
 import StatCards2 from './shared/StatCards2';
 
 import Pipelinetable from './shared/Pipelinetable';
-import SelectProcess from './shared/SelectProcess';
-
-import AddProcess from './shared/AddProcess';
 
 
 const ContentBox = styled('div')(({ theme }) => ({
@@ -35,10 +32,32 @@ const H4 = styled('h4')(({ theme }) => ({
   textTransform: 'capitalize',
   color: theme.palette.text.secondary,
 }));
+const baseURL = "https://3uiqfn8244.execute-api.us-east-1.amazonaws.com/dev/get-all-pipelines";
 
 const Playout = () => {
   const { palette } = useTheme();
+  const [result, setResult] = useState(null);
+  useEffect(() => {
+    axios.post(baseURL, requestOptions)
+      .then(res => {
+        setResult(res.data);
+        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        console.log(res.data);
+      })
+    // .then(response => response.json())
+    // .then(data => this.setState({ postId: data.id }));
+  }, []);
+  useEffect(() => {
 
+    // .then(response => response.json())
+    // .then(data => this.setState({ postId: data.id }));
+  }, [result]);
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title: 'React POST Request Example' })
+  };
   return (
     <Fragment>
       <ContentBox className="analytics">
@@ -47,8 +66,9 @@ const Playout = () => {
 
             <StatCards2 />
             <StatCards />
-            <Pipelinetable />
-            
+            {result ?
+              <Pipelinetable productList={result} /> : <>Loading...</>}
+
           </Grid>
 
 

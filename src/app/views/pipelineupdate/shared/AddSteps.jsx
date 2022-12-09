@@ -72,8 +72,9 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
 
   const theme = useTheme();
   useEffect(() => {
-
+    console.log("selsteps from AddSteps", selsteps);
   }, [selsteps]);
+
   useEffect(() => {
     console.log("steps from AddSteps", steps);
   }, [steps]);
@@ -87,7 +88,7 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
       freeSolo
       noOptionsText="No Option available."
       multiple
-      open
+      //open
       autoFocus
       defaultValue={selectedSteps}
       //defaultValue={[steps[1].name]}
@@ -99,6 +100,7 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
       name='stepsData'
       onChange={(event, newValue) => {
         console.log("Onchange", newValue)
+        setSelectedSteps(newValue);
         return (AddProcessData(newValue, null, 'stepsData'))
       }}
       disableCloseOnSelect
@@ -109,11 +111,17 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
           ))
       }*/
       renderOption={(props, steps, { selected }) => {
+        for (var i = 0; i < selectedSteps.length; i++) {
+          if (selectedSteps[i].name === steps.name) {
+
+            selected = true;
+
+          }
+        }
         { (steps.steptemplateid) % 2 === 0 ? steps.status = "/assets/images/awsicons/greenarr.jpg" : steps.status = "/assets/images/awsicons/redarr.jpg" }
         const tempstepid = `${steps.steptemplateid}`;
         steps.steptemplateid = tempstepid;
         return (
-
           <li {...props} sx={{ width: '100%', height: 50 }}>
             <Box
               component={DoneIcon}
@@ -155,18 +163,18 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
 
             </Box>
             {/*<Box
-                sx={{
-                  flexGrow: 1,
-                  '& span': {
-                    color:
-                      theme.palette.mode === 'dark' ? '#586069' : '#8b949e',
-                  },
-                }}
-              >
-                <Avatar src={steps.status} alt="I" />
-                <br />
+              sx={{
+                flexGrow: 1,
+                '& span': {
+                  color:
+                    theme.palette.mode === 'dark' ? '#586069' : '#8b949e',
+                },
+              }}
+            >
+              <Avatar src={steps.status} alt="I" />
+              <br />
 
-              </Box>*/}
+            </Box>*/}
 
             <Box sx={{ minWidth: 120, height: '120px' }}>
               <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -192,7 +200,6 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
               }}
             />
           </li>
-
 
         )
       }

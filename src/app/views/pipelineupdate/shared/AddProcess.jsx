@@ -3,9 +3,11 @@ import TextField from '@mui/material/TextField';
 import PropTypes from 'prop-types';
 import Stack from '@mui/material/Stack';
 import { useTheme, styled } from '@mui/material/styles';
+
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+
 import Select from '@mui/material/Select';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
@@ -57,7 +59,7 @@ PopperComponent.propTypes = {
   open: PropTypes.bool.isRequired,
 };
 
-export default function AddProcess({ AddProcessData, process, preOptions }) {
+export default function AddProcess({ AddProcessData, LoadProcessData, process, preOptions }) {
 
   const [options, setOptions] = useState(preOptions);
   const [inputValue, setInputValue] = useState("");
@@ -69,7 +71,7 @@ export default function AddProcess({ AddProcessData, process, preOptions }) {
   console.log("value", value)
 
   useEffect(() => {
-
+    LoadProcessData();
     setInputValue(process.name);
     console.log("process.name ", process.name);
   }, [process.name]);
@@ -78,17 +80,17 @@ export default function AddProcess({ AddProcessData, process, preOptions }) {
 
     console.log("options ", options);
   }, [options]);
+
   const handleSelectChange = (event) => {
     setSequence(event.target.value)
   };
   return (
     <>
-
       <h4>Select the process.</h4>
       <Autocomplete
         options={options}
         freeSolo
-        //autoFocus
+        autoFocus
         //noOptionsText="No option available"
         //multiple
         //open
@@ -97,7 +99,7 @@ export default function AddProcess({ AddProcessData, process, preOptions }) {
         getOptionLabel={(option) => option.name}
         value={value}
         name='processData'
-        onChange={(event, newValue) => AddProcessData(newValue, null, 'processData')}
+        onChange={(event, newValue) => { AddProcessData(newValue, null, 'processData'); setValue(newValue); }}
 
         inputValue={inputValue}
         onInputChange={(event, newInputValue) => {
@@ -114,8 +116,6 @@ export default function AddProcess({ AddProcessData, process, preOptions }) {
          }*/
         renderOption={(props, options, { selected }) => {
           { (options.processtemplateid) % 2 === 0 ? options.status = "/assets/images/awsicons/greenarr.jpg" : options.status = "/assets/images/awsicons/redarr.jpg" }
-
-
 
           return (
             <li {...props}>
@@ -139,7 +139,7 @@ export default function AddProcess({ AddProcessData, process, preOptions }) {
                 <br />
 
               </Box>
-              {/*} <Box
+              {/* <Box
                 sx={{
                   flexGrow: 1,
                   '& span': {
@@ -194,6 +194,7 @@ export default function AddProcess({ AddProcessData, process, preOptions }) {
              }
            }}*/
           />
+
             <Box sx={{ minWidth: 120, height: '120px' }}>
               <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel sx={{ minWidth: 120, minHeight: 30 }} >Seq *</InputLabel>
@@ -211,12 +212,14 @@ export default function AddProcess({ AddProcessData, process, preOptions }) {
               </FormControl>
             </Box>
 
-
           </Stack>
-        )
-        }
+        )}
       />
-      < h4 > Add the Steps for the selected process.</h4 >
+
+
+
+
+      <h4>Add the Steps for the selected process.</h4>
     </>
   );
 }

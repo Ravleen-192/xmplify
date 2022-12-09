@@ -8,6 +8,8 @@ import {
   TableRow,
 
 } from '@mui/material';
+import Divider from '@mui/material/Divider';
+
 import { Paragraph } from 'app/components/Typography';
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -48,20 +50,24 @@ export default function ControlledExpansionPanels(product, productid) {
   return (
     <Box width="100%">
       {product.productList.product.map((step, index) => {
-
+        console.log("step", step)
         return (<Accordion expanded={expanded === step.id} onChange={handleChange(step.id)}>
           <AccordionSummary
             id="panel1bh-header"
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1bh-content"
           >
-            <Heading>{step.id} </Heading>
-            <SecondaryHeading>{step.desc}</SecondaryHeading>
+            <Heading><Avatar src={step.icon} /></Heading>
+
+            <SecondaryHeading>{step.name} </SecondaryHeading>
+            <Divider />
           </AccordionSummary>
 
           {step.steps.map((st, index) => {
 
             return (<AccordionDetails>
+              <Divider />
+
               <ProductTable>
 
                 <TableBody>
@@ -83,7 +89,7 @@ export default function ControlledExpansionPanels(product, productid) {
                     <TableCell colSpan={4} align="left" sx={{ px: 0, textTransform: 'capitalize' }}>
                       <Box display="flex" alignItems="left">
 
-                        <Paragraph>{st.desc}</Paragraph>
+                        <Paragraph>{st.description}</Paragraph>
 
                       </Box>
                     </TableCell>
@@ -92,6 +98,7 @@ export default function ControlledExpansionPanels(product, productid) {
 
                 </TableBody>
               </ProductTable>
+              <Divider />
             </AccordionDetails>);
 
           })}
