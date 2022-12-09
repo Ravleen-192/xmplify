@@ -126,67 +126,10 @@ const Pipelinetable = (props) => {
               })}
             </TableBody>
           </ProductTable><Divider /></> : <>
-            <Button sx={{ color: 'red' }}>Please enter the pipeline name and atleast one process to create a pipeline.</Button><Divider /></>}
+            <Button sx={{ color: 'red' }}>Please enter/update the pipeline name and add/update atleast one process to update a pipeline.</Button><Divider /></>}
       </Box>
     </Card>
   );
 };
-/*
-const productList = [{
-  "id": "",
-  "processes": [{
-    "id": "#1111P1",
-    "name": "On-prem to S3",
-    "icon": "/assets/images/awsicons/s3.png",
-    "steps": [{
-      "name": "Trigger job to move/copy to S3",
-      "icon": "/assets/images/awsicons/s3.png"
-    }, {
-      "name": "for push - N/A, e.g. cron copies from STFP to S3",
-      "icon": "/assets/images/awsicons/redshift1.png"
-    }, {
-      "name": "Load trailer file to log table",
-      "icon": "/assets/images/awsicons/s3.png"
-    }, {
-      "name": "On-prem DAtabase to AWS Redshift Replication",
-      "icon": "/assets/images/awsicons/quicksight.png"
-    }]
-  }, {
-    "id": "#1111P1",
-    "name": "On-prem to S3",
-    "icon": "/assets/images/awsicons/s3.png",
-    "steps": [{
-      "name": "Trigger job to move/copy to S3",
-      "icon": "/assets/images/awsicons/s3.png"
-    }, {
-      "name": "for push - N/A, e.g. cron copies from STFP to S3",
-      "icon": "/assets/images/awsicons/redshift1.png"
-    }, {
-      "name": "Load trailer file to log table",
-      "icon": "/assets/images/awsicons/s3.png"
-    }, {
-      "name": "On-prem DAtabase to AWS Redshift Replication",
-      "icon": "/assets/images/awsicons/quicksight.png"
-    }]
-  }, {
-    "id": "#1111P1",
-    "name": "On-prem to S3",
-    "icon": "/assets/images/awsicons/s3.png",
-    "steps": [{
-      "name": "Trigger job to move/copy to S3",
-      "icon": "/assets/images/awsicons/s3.png"
-    }, {
-      "name": "for push - N/A, e.g. cron copies from STFP to S3",
-      "icon": "/assets/images/awsicons/redshift1.png"
-    }, {
-      "name": "Load trailer file to log table",
-      "icon": "/assets/images/awsicons/s3.png"
-    }, {
-      "name": "On-prem DAtabase to AWS Redshift Replication",
-      "icon": "/assets/images/awsicons/quicksight.png"
-    }]
-  }]
-}];
-*/
 
 export default Pipelinetable;

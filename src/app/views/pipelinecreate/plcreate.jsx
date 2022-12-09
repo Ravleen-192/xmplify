@@ -254,35 +254,34 @@ const PlCreate = () => {
     console.log("HandleComplete state[0].name", state[0].name)
     if (processData.name !== '')
       AddtoPipeline();
-    if (!completed[activeStep]) {
-      if (activeStep === 0 && (state[0].name != null && state[0].name !== ''))
-        changeStepLabel(activeStep, state[0].name);
+    if (activeStep === 0 && (state[0].name != null && state[0].name !== ''))
+      changeStepLabel(activeStep, state[0].name);
 
-      if (activeStep === 1) {
-        setActiveProcess(process1);
-        if ((process1.name != null && process1.name !== '')) {
-          changeStepLabel(activeStep, process1.name);
-        }
-      }
-      else if (activeStep === 2) {
-        setActiveProcess(process2);
-        if ((process2.name != null && process2.name !== '')) {
-          changeStepLabel(activeStep, process2.name);
-        }
-      }
-      else if (activeStep === 3) {
-        setActiveProcess(process3);
-        if ((process3.name != null && process3.name !== '')) {
-          changeStepLabel(activeStep, process3.name);
-        }
-      }
-      else if (activeStep === 4) {
-        setActiveProcess(process4);
-        if ((process4.name != null && process4.name !== '')) {
-          changeStepLabel(activeStep, process4.name);
-        }
+    if (activeStep === 1) {
+      setActiveProcess(process1);
+      if ((process1.name != null && process1.name !== '')) {
+        changeStepLabel(activeStep, process1.name);
       }
     }
+    else if (activeStep === 2) {
+      setActiveProcess(process2);
+      if ((process2.name != null && process2.name !== '')) {
+        changeStepLabel(activeStep, process2.name);
+      }
+    }
+    else if (activeStep === 3) {
+      setActiveProcess(process3);
+      if ((process3.name != null && process3.name !== '')) {
+        changeStepLabel(activeStep, process3.name);
+      }
+    }
+    else if (activeStep === 4) {
+      setActiveProcess(process4);
+      if ((process4.name != null && process4.name !== '')) {
+        changeStepLabel(activeStep, process4.name);
+      }
+    }
+
     const newActiveStep =
      /* isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
@@ -313,6 +312,8 @@ const PlCreate = () => {
       }
     ]
     );
+    seterrMsg("");
+    setsuccMsg("");
     setprocessData({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
     setprocess1({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
     setprocess2({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
@@ -337,12 +338,12 @@ const PlCreate = () => {
 
       <div>
         {errMsg !== "" ?
-          <Alert severity="error" onClose={() => { seterrMsg("") }}>
+          <Alert severity="error" onClose={() => { seterrMsg(""); handleReset(); }}>
             <AlertTitle>Error</AlertTitle>
             <strong>{errMsg}</strong>
           </Alert> : null}
         {succMsg !== "" ?
-          <Alert severity="success" onClose={() => { setsuccMsg("") }}>
+          <Alert severity="success" onClose={() => { setsuccMsg(""); handleReset(); }}>
             <AlertTitle>Success</AlertTitle>
             <strong>{succMsg}</strong>
           </Alert> : null}
@@ -365,10 +366,10 @@ const PlCreate = () => {
                 {/*Step {activeStep + 1}*/}
 
                 {activeStep === 0 ? <SimpleCard title="Create a Pipeline"><SimpleForm setPipelinename={setPipelinename} Pipelinename={state[0].name} setbNameConfirmed={setbNameConfirmed} bNameConfirmed={bNameConfirmed} /></SimpleCard> :
-                  activeStep === 1 ? <><AddProcess key={'process1'} process={process1} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> <AddSteps key={"process1Steps"} selsteps={process1.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /></>
-                    : activeStep === 2 ? <><AddProcess key={'process2'} process={process2} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> <AddSteps key={"process2Steps"} selsteps={process2.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /></>
-                      : activeStep === 3 ? <><AddProcess key={'process3'} process={process3} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> <AddSteps key={"process3Steps"} selsteps={process3.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /></>
-                        : activeStep === 4 ? <><AddProcess key={'process4'} process={process4} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> <AddSteps key={"process4Steps"} selsteps={process4.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /> </>
+                  activeStep === 1 ? <><AddProcess key={'process1'} process={process1} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> {(process1.name !== null && process1.name !== '') ? <AddSteps key={"process1Steps"} selsteps={process1.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /> : null}</>
+                    : activeStep === 2 ? <><AddProcess key={'process2'} process={process2} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> {(process2.name !== null && process2.name !== '') ? <AddSteps key={"process2Steps"} selsteps={process2.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /> : null}</>
+                      : activeStep === 3 ? <><AddProcess key={'process3'} process={process3} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> {(process3.name !== null && process3.name !== '') ? <AddSteps key={"process3Steps"} selsteps={process3.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /> : null}</>
+                        : activeStep === 4 ? <><AddProcess key={'process4'} process={process4} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> {(process4.name !== null && process4.name !== '') ? <AddSteps key={"process4Steps"} selsteps={process4.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /> : null}</>
                           : <Pipelinetable pipelineData={pipelineData} pipelineName={state[0].name} />}
 
               </Typography> : <>Loading...</>}

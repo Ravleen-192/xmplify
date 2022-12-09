@@ -356,7 +356,7 @@ const PlUpdate = () => {
           console.log(jPipelineData)
 
         });
-      setsuccMsg("Pipeline Created!")
+      setsuccMsg("Pipeline Updated!")
     } catch (error) {
       console.log("error", error)
       seterrMsg(error);
@@ -503,6 +503,8 @@ const PlUpdate = () => {
     setCompleted({});
     setSteps(initSteps);
     setPipeline({ product });
+    seterrMsg("");
+    setsuccMsg("");
     setState([
       {
         name: null,
@@ -530,12 +532,12 @@ const PlUpdate = () => {
       </Stepper>
       <div>
         {errMsg !== "" ?
-          <Alert severity="error" onClose={() => { seterrMsg("") }}>
+          <Alert severity="error" onClose={() => { seterrMsg(""); handleReset(); }}>
             <AlertTitle>Error</AlertTitle>
             <strong>{errMsg}</strong>
           </Alert> : null}
         {succMsg !== "" ?
-          <Alert severity="success" onClose={() => { setsuccMsg("") }}>
+          <Alert severity="success" onClose={() => { setsuccMsg(""); handleReset(); }}>
             <AlertTitle>Success</AlertTitle>
             <strong>{succMsg}</strong>
           </Alert> : null}

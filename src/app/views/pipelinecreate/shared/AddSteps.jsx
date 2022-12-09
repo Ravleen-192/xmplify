@@ -82,79 +82,81 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
     setSequence(event.target.value)
   };
   return (
-    <Autocomplete
-      options={steps}
-      freeSolo
-      noOptionsText="No Option available."
-      multiple
-      open
-      autoFocus
-      defaultValue={selectedSteps}
-      //defaultValue={[steps[1].name]}
-      getOptionLabel={(step) => step.name}
-      /*inputValue={inputValue}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
-      }}*/
-      name='stepsData'
-      onChange={(event, newValue) => {
-        console.log("Onchange", newValue)
-        return (AddProcessData(newValue, null, 'stepsData'))
-      }}
-      disableCloseOnSelect
-      PopperComponent={PopperComponent}
-      /*renderTags={(value, getTagProps) =>
-          value.map((option, index) => (
-              <Chip variant="outlined" label={Array.isArray(option) ? option.name : option}  {...getTagProps({ index })} />
-          ))
-      }*/
-      renderOption={(props, steps, { selected }) => {
-        { (steps.steptemplateid) % 2 === 0 ? steps.status = "/assets/images/awsicons/greenarr.jpg" : steps.status = "/assets/images/awsicons/redarr.jpg" }
-        const tempstepid = `${steps.steptemplateid}`;
-        steps.steptemplateid = tempstepid;
-        return (
+    <>
+      < h4 > Add the Steps for the selected process.</h4 >
+      <Autocomplete
+        options={steps}
+        freeSolo
+        noOptionsText="No Option available."
+        multiple
+        open
+        autoFocus
+        defaultValue={selectedSteps}
+        //defaultValue={[steps[1].name]}
+        getOptionLabel={(step) => step.name}
+        /*inputValue={inputValue}
+        onInputChange={(event, newInputValue) => {
+          setInputValue(newInputValue);
+        }}*/
+        name='stepsData'
+        onChange={(event, newValue) => {
+          console.log("Onchange", newValue)
+          return (AddProcessData(newValue, null, 'stepsData'))
+        }}
+        disableCloseOnSelect
+        PopperComponent={PopperComponent}
+        /*renderTags={(value, getTagProps) =>
+            value.map((option, index) => (
+                <Chip variant="outlined" label={Array.isArray(option) ? option.name : option}  {...getTagProps({ index })} />
+            ))
+        }*/
+        renderOption={(props, steps, { selected }) => {
+          { (steps.steptemplateid) % 2 === 0 ? steps.status = "/assets/images/awsicons/greenarr.jpg" : steps.status = "/assets/images/awsicons/redarr.jpg" }
+          const tempstepid = `${steps.steptemplateid}`;
+          steps.steptemplateid = tempstepid;
+          return (
 
-          <li {...props} sx={{ width: '100%', height: 50 }}>
-            <Box
-              component={DoneIcon}
-              sx={{ width: 17, height: 17, mr: '5px', ml: '-2px' }}
-              style={{
-                visibility: selected ? 'visible' : 'hidden',
-              }}
-            />
-            <Box
-              sx={{
-                width: 17, height: 17, mr: '5px', ml: '10px',
-                flexGrow: 1,
-                '& span': {
-                  color:
-                    theme.palette.mode === 'light' ? '#586069' : '#8b949e',
-                },
-              }}
-            >
-              {steps.steptemplateid}
-              {"           "}
+            <li {...props} sx={{ width: '100%', height: 50 }}>
+              <Box
+                component={DoneIcon}
+                sx={{ width: 17, height: 17, mr: '5px', ml: '-2px' }}
+                style={{
+                  visibility: selected ? 'visible' : 'hidden',
+                }}
+              />
+              <Box
+                sx={{
+                  width: 17, height: 17, mr: '5px', ml: '10px',
+                  flexGrow: 1,
+                  '& span': {
+                    color:
+                      theme.palette.mode === 'light' ? '#586069' : '#8b949e',
+                  },
+                }}
+              >
+                {steps.steptemplateid}
+                {"           "}
 
-              <Avatar src={steps.icon} alt="I" />
-
-
-            </Box>
+                <Avatar src={steps.icon} alt="I" />
 
 
-            <Box
-              sx={{
-                flexGrow: 1,
-                '& span': {
-                  color:
-                    theme.palette.mode === 'light' ? '#586069' : '#8b949e',
-                },
-              }}
-            >
-              {steps.name}
-              <br />
+              </Box>
 
-            </Box>
-            {/*<Box
+
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  '& span': {
+                    color:
+                      theme.palette.mode === 'light' ? '#586069' : '#8b949e',
+                  },
+                }}
+              >
+                {steps.name}
+                <br />
+
+              </Box>
+              {/*<Box
                 sx={{
                   flexGrow: 1,
                   '& span': {
@@ -168,53 +170,53 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
 
               </Box>*/}
 
-            <Box sx={{ minWidth: 120, height: '120px' }}>
-              <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel sx={{ minWidth: 120, minHeight: 30 }} >Seq *</InputLabel>
-                <Select
+              <Box sx={{ minWidth: 120, height: '120px' }}>
+                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel sx={{ minWidth: 120, minHeight: 30 }} >Seq *</InputLabel>
+                  <Select
 
-                  //value={sequence}
-                  label="Age"
-                  onChange={handleSelectChange}
-                >
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
-                  <MenuItem value={4}>4</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <Box
-              component={CloseIcon}
-              sx={{ opacity: 0.6, width: 18, height: 18 }}
-              style={{
-                visibility: selected ? 'visible' : 'hidden',
-              }}
-            />
-          </li>
+                    //value={sequence}
+                    label="Age"
+                    onChange={handleSelectChange}
+                  >
+                    <MenuItem value={1}>1</MenuItem>
+                    <MenuItem value={2}>2</MenuItem>
+                    <MenuItem value={3}>3</MenuItem>
+                    <MenuItem value={4}>4</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box
+                component={CloseIcon}
+                sx={{ opacity: 0.6, width: 18, height: 18 }}
+                style={{
+                  visibility: selected ? 'visible' : 'hidden',
+                }}
+              />
+            </li>
 
 
-        )
-      }
+          )
+        }
 
-      }
+        }
 
-      renderInput={(params) => (
-        <TextField
-          {...params}
+        renderInput={(params) => (
+          <TextField
+            {...params}
 
-          placeholder="Steps"
-        /*onKeyDown={(e) => {
-          if (
-            e.key === "Enter" &&
-            steps.findIndex((o) => o.name === inputValue) === -1
-          ) {
-
-            setSteps((o) => o.concat({ name: inputValue, icon: "/assets/images/awsicons/quicksight.png" }));
-          }
-        }}*/
-        />
-      )}
-    />
+            placeholder="Steps"
+          /*onKeyDown={(e) => {
+            if (
+              e.key === "Enter" &&
+              steps.findIndex((o) => o.name === inputValue) === -1
+            ) {
+  
+              setSteps((o) => o.concat({ name: inputValue, icon: "/assets/images/awsicons/quicksight.png" }));
+            }
+          }}*/
+          />
+        )}
+      /></>
   );
 }

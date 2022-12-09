@@ -216,7 +216,7 @@ export default function AddProcess({ AddProcessData, process, preOptions }) {
         )
         }
       />
-      < h4 > Add the Steps for the selected process.</h4 >
+
     </>
   );
 }
