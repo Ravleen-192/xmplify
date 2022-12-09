@@ -44,6 +44,10 @@ const Playout = () => {
         console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
         console.log(res.data);
       })
+      .then(err => {
+        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        console.log(err);
+      })
     // .then(response => response.json())
     // .then(data => this.setState({ postId: data.id }));
   }, []);
