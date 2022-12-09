@@ -5,7 +5,7 @@ import { Small } from 'app/components/Typography';
 const Campaigns = () => {
   return (
     <Box>
-      <SimpleCard title="DATA and AI ">
+      <SimpleCard title="Data Strategy and Data Analytics ">
         <h2>
           <span >What is a Data Strategy? (And What it’s Not)</span></h2>
 
