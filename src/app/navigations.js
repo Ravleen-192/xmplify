@@ -1,6 +1,6 @@
 export const navigations = [
   { name: 'Home', path: '/dashboard/default', icon: 'dashboard' },
- // { label: 'PAGES', type: 'label' },
+  // { label: 'PAGES', type: 'label' },
   {
     name: 'Session/Auth',
     icon: 'security',
@@ -17,40 +17,33 @@ export const navigations = [
     icon: 'launch',
     /*badge: { value: '30+', color: 'secondary' },*/
     children: [
-      { name: 'Pipeline', path:'/pipelinemgmt/default', iconText: 'A' },
-      { name: 'Process', path: '/material/expansion-panel', iconText: 'B' },
-      { name: 'Process Step', path: '/material/checkbox', iconText: 'C' },
-
+      { name: 'Pipeline', path: '/pipelinemgmt/default', iconText: 'A' },
+      { name: 'Process', path: '/dashboard/default', iconText: 'B' },
+      { name: 'Process Step', path: '/dashboard/default', iconText: 'C' },
     ],
   },
   {
     name: 'Data Quality Management',
     icon: 'high_quality',
-    children: [{ name: 'Controls', path: '/charts/echarts', iconText: 'Q' },
-
-    ],
+    children: [{ name: 'Controls', path: '/dashboard/default', iconText: 'Q' }],
   },
   {
     name: 'Data Lineage',
     icon: 'hdr_strong',
     children: [
+      { name: 'Source Level', path: '/dashboard/default', iconText: 'S' },
 
-      { name: 'Source Level', path: '/charts/echarts', iconText: 'S' },
-
-      { name: 'Table Level', path: '/material/table', iconText: 'T' },
+      { name: 'Table Level', path: '/dashboard/default', iconText: 'T' },
     ],
-
   },
   {
     name: 'Operations view',
     icon: 'trending_up',
     children: [
+      { name: 'Status', path: '/dashboard/default', iconText: 'S' },
 
-      { name: 'Status', path: '/charts/echarts', iconText: 'S' },
-
-      { name: 'Logs', path: '/material/table', iconText: 'T' },
-      { name: 'Notifications', path: '/material/table', iconText: 'T' },
+      { name: 'Logs', path: '/dashboard/default', iconText: 'T' },
+      { name: 'Notifications', path: '/dashboard/default', iconText: 'T' },
     ],
-
   },
 ];
