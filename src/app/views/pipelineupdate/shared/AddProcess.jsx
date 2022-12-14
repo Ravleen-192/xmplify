@@ -62,19 +62,25 @@ PopperComponent.propTypes = {
 export default function AddProcess({ AddProcessData, LoadProcessData, process, preOptions }) {
 
   const [options, setOptions] = useState(preOptions);
-  const [inputValue, setInputValue] = useState("");
-  const [value, setValue] = useState(process.name);
+  const [inputValue, setInputValue] = useState('');
+  const [value, setValue] = useState('');
   const [sequence, setSequence] = useState("Seq*")
 
   const theme = useTheme();
-  console.log("process name", process.name)
-  console.log("value", value)
-
   useEffect(() => {
-    LoadProcessData();
-    setInputValue(process.name);
-    console.log("process.name ", process.name);
-  }, [process.name]);
+    if (process && process.name) {
+      LoadProcessData();
+      setValue(process.name)
+      setInputValue(process.name);
+      setSequence(process.sequenceid);
+    }
+    else {
+      setValue('');
+      setInputValue('');
+    }
+    //console.log("process.name ", process.name);
+  }, [process]);
+
 
   useEffect(() => {
 
@@ -82,7 +88,9 @@ export default function AddProcess({ AddProcessData, LoadProcessData, process, p
   }, [options]);
 
   const handleSelectChange = (event) => {
-    setSequence(event.target.value)
+    setSequence(event.target.value);
+    AddProcessData(event.target.value, null, 'processSeq')
+
   };
   return (
     <>
@@ -95,12 +103,15 @@ export default function AddProcess({ AddProcessData, LoadProcessData, process, p
         //multiple
         //open
         //defaultValue={[options[0].name]}
-        isOptionEqualToValue={(option, value) => option.name === process.name}
-        getOptionLabel={(option) => option.name}
-        value={value}
+        isOptionEqualToValue={(option, process) => option?.name === process?.name}
+        getOptionLabel={(option) => option.name || ""}
+        //value={value}
         name='processData'
-        onChange={(event, newValue) => { AddProcessData(newValue, null, 'processData'); setValue(newValue); }}
-
+        onChange={(event, newValue) => {
+          setValue(newValue);
+          AddProcessData(newValue, null, 'processData')
+        }
+        }
         inputValue={inputValue}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
@@ -201,7 +212,7 @@ export default function AddProcess({ AddProcessData, LoadProcessData, process, p
                 <Select
 
                   value={sequence}
-                  label="Age"
+                  label="Seq *"
                   onChange={handleSelectChange}
                 >
                   <MenuItem value={1}>1</MenuItem>

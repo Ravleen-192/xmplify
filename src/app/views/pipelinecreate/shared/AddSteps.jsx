@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import PropTypes from 'prop-types';
 import Stack from '@mui/material/Stack';
 import { useTheme, styled } from '@mui/material/styles';
-
+import { Grid } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -68,7 +68,9 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
   const [inputValue, setInputValue] = useState({});
   const [steps, setSteps] = useState(preSteps);
   const [selectedSteps, setSelectedSteps] = useState(selsteps);
-  const [sequence, setSequence] = useState("Seq*")
+  const [sequence, setSequence] = useState("Seq*");
+  const [newValue, setnewValue] = useState({});
+  const [bnewValue, setbnewValue] = useState('false');
 
   const theme = useTheme();
   useEffect(() => {
@@ -78,9 +80,15 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
     console.log("steps from AddSteps", steps);
   }, [steps]);
 
-  const handleSelectChange = (event) => {
-    setSequence(event.target.value)
+  const setStepsSequence = (value, tempstepid) => {
+    for (var i = 0; i < newValue.length; i++) {
+      if (newValue[i].steptemplateid === tempstepid)
+        newValue[i].sequenceid = `${value}`;
+    }
+    setbnewValue('false');
+    return (AddProcessData(newValue, null, 'stepsData'))
   };
+
   return (
     <>
       < h4 > Add the Steps for the selected process.</h4 >
@@ -101,7 +109,8 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
         name='stepsData'
         onChange={(event, newValue) => {
           console.log("Onchange", newValue)
-          return (AddProcessData(newValue, null, 'stepsData'))
+          setbnewValue('true');
+          setnewValue(newValue);
         }}
         disableCloseOnSelect
         PopperComponent={PopperComponent}
@@ -114,49 +123,42 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
           { (steps.steptemplateid) % 2 === 0 ? steps.status = "/assets/images/awsicons/greenarr.jpg" : steps.status = "/assets/images/awsicons/redarr.jpg" }
           const tempstepid = `${steps.steptemplateid}`;
           steps.steptemplateid = tempstepid;
-          return (
+          return (<Grid container spacing={2}>
+            <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
+              <li {...props} sx={{ width: '100%' }} >
+                <Box
+                  component={DoneIcon}
+                  sx={{ width: 17, height: 17, mr: '5px', ml: '-2px' }}
+                  style={{
+                    visibility: selected ? 'visible' : 'hidden',
+                  }}
+                />
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    '& span': {
+                      color:
+                        theme.palette.mode === 'light' ? '#586069' : '#8b949e',
+                    },
+                  }}
+                >
+                  {steps.steptemplateid}
+                  <Avatar src={steps.icon} alt="I" />
+                </Box>
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    '& span': {
+                      color:
+                        theme.palette.mode === 'light' ? '#586069' : '#8b949e',
+                    },
+                  }}
+                >
+                  {steps.name}
+                  <br />
 
-            <li {...props} sx={{ width: '100%', height: 50 }}>
-              <Box
-                component={DoneIcon}
-                sx={{ width: 17, height: 17, mr: '5px', ml: '-2px' }}
-                style={{
-                  visibility: selected ? 'visible' : 'hidden',
-                }}
-              />
-              <Box
-                sx={{
-                  width: 17, height: 17, mr: '5px', ml: '10px',
-                  flexGrow: 1,
-                  '& span': {
-                    color:
-                      theme.palette.mode === 'light' ? '#586069' : '#8b949e',
-                  },
-                }}
-              >
-                {steps.steptemplateid}
-                {"           "}
-
-                <Avatar src={steps.icon} alt="I" />
-
-
-              </Box>
-
-
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  '& span': {
-                    color:
-                      theme.palette.mode === 'light' ? '#586069' : '#8b949e',
-                  },
-                }}
-              >
-                {steps.name}
-                <br />
-
-              </Box>
-              {/*<Box
+                </Box>
+                {/*<Box
                 sx={{
                   flexGrow: 1,
                   '& span': {
@@ -167,17 +169,31 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
               >
                 <Avatar src={steps.status} alt="I" />
                 <br />
-
+  
               </Box>*/}
+                <Box
+                  component={CloseIcon}
+                  sx={{ opacity: 0.6 }}
+                  style={{
+                    visibility: selected ? 'visible' : 'hidden',
+                  }}
+                />
+              </li>
+            </Grid>
 
-              <Box sx={{ minWidth: 120, height: '120px' }}>
+            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+              <Box sx={{ minWidth: 120, height: '120px' }} style={{
+                visibility: selected ? 'visible' : 'hidden',
+              }}>
                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel sx={{ minWidth: 120, minHeight: 30 }} >Seq *</InputLabel>
                   <Select
-
-                    //value={sequence}
-                    label="Age"
-                    onChange={handleSelectChange}
+                    value={steps.sequenceid}
+                    label="Seq*"
+                    onChange={(event) => {
+                      setSequence(event.target.value);
+                      setStepsSequence(event.target.value, steps.steptemplateid);
+                    }}
                   >
                     <MenuItem value={1}>1</MenuItem>
                     <MenuItem value={2}>2</MenuItem>
@@ -186,16 +202,8 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
                   </Select>
                 </FormControl>
               </Box>
-              <Box
-                component={CloseIcon}
-                sx={{ opacity: 0.6, width: 18, height: 18 }}
-                style={{
-                  visibility: selected ? 'visible' : 'hidden',
-                }}
-              />
-            </li>
-
-
+            </Grid>
+          </Grid>
           )
         }
 

@@ -18,7 +18,7 @@ import AlertTitle from '@mui/material/AlertTitle';
 const getPocessURL = "https://3uiqfn8244.execute-api.us-east-1.amazonaws.com/dev/get-process-templates";
 const getStepsURL = "https://3uiqfn8244.execute-api.us-east-1.amazonaws.com/dev/get-step-templates";
 const createPipelineURL = "https://3uiqfn8244.execute-api.us-east-1.amazonaws.com/dev/create-pipeline";
-const initSteps = ['Create Pipeline', 'Add Process', 'Add Process', 'Add Process', 'Add Process', 'Review and Create a pipleline'];
+const initSteps = ['Create Pipeline', 'Add Process', 'Review and Create a pipleline'];
 
 const PlCreate = () => {
   const [steps, setSteps] = useState(initSteps);
@@ -28,11 +28,9 @@ const PlCreate = () => {
   const [activeProcess, setActiveProcess] = useState({});
   const [completed, setCompleted] = useState({});
   const [bNameConfirmed, setbNameConfirmed] = useState('false');
-  const [processData, setprocessData] = useState({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
-  const [process1, setprocess1] = useState({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
-  const [process2, setprocess2] = useState({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
-  const [process3, setprocess3] = useState({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
-  const [process4, setprocess4] = useState({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
+  const [bAddStep, setbAddstep] = useState('false');
+  const [processData, setprocessData] = useState({ processtemplateid: '', name: '', icon: '', status: '', sequenceid: '', steps: [] });
+  const [process, setprocess] = useState([]);
   const [bcreatePipeline, setbceatePipeline] = useState('false');
   const [jPipelineData, setJpipelineData] = useState("");
   const [errMsg, seterrMsg] = useState("");
@@ -59,11 +57,11 @@ const PlCreate = () => {
   };
 
   const AddtoPipeline = () => {
-
     setState((prev) => [
       ...prev.filter((a, i) => i !== 0),
       { ...prev[0], processes: [...prev[0].processes, { processtemplateid: processData.processtemplateid, name: processData.name, icon: processData.icon, status: processData.status, steps: processData.steps }] }
     ]);
+
   };
   const setPipelinename = (value) => {
     console.log("set pipeline name called")
@@ -78,12 +76,8 @@ const PlCreate = () => {
     console.log("state[0].name", state[0].name)
   }, [state], [state[0].name]);
 
-  useEffect(() => {
-    console.log("steps", steps)
-  }, [steps]);
-
   const AddProcessData = (field) => (event, value, selectedKey) => {
-
+    console.log(event, value, selectedKey);
     let data = { ...processData };
     if (selectedKey === 'processData') {
       if (event) {
@@ -94,18 +88,51 @@ const PlCreate = () => {
         data.status = event.status;
       }
     }
-    else if (selectedKey === 'stepsData')
+    else if (selectedKey === 'processSeq') {
+      if (event) {
+        data.sequenceid = `${event}`;
+      }
+    }
+    else if (selectedKey === 'stepsData') {
       if (event) {
         data.steps = event;
       }
+    }
     console.log("data", data)
     setprocessData(data)
-    if (activeStep === 1) { setprocess1(data) }
-    else if (activeStep === 2) { setprocess2(data) }
-    else if (activeStep === 3) { setprocess3(data) }
-    else if (activeStep === 4) { setprocess4(data) }
-  };
+    setprocessAtIndex(activeStep, data)
 
+  };
+  const setprocessAtIndex = (activeStep, data) => {
+    const newProcesses = [...process];
+
+    newProcesses[activeStep - 1] = data;
+
+    setprocess(newProcesses);
+
+  };
+  const setstepLabelAtIndex = (activeStep) => {
+    const newsteps = [...steps];
+
+    newsteps[activeStep] = "Add Process";
+    newsteps[activeStep + 1] = "Review and Create Pipeline";
+    console.log("setstepLabelAtIndex", newsteps)
+    setprocessAtIndex(activeStep, processData);
+
+    setSteps(newsteps);
+    setbAddstep('false');
+
+  };
+  useEffect(() => {
+
+    console.log("%%%%%%%%%%%%%%%process", process)
+
+  }, [process]);
+  useEffect(() => {
+
+    console.log("%%%%%%%%%%%%%%%steps", steps)
+
+  }, [steps]);
   useEffect(() => {
     axios.post(getPocessURL, requestOptions)
       .then(res => {
@@ -196,8 +223,22 @@ const PlCreate = () => {
     console.log("pipelineData ", pipelineData);
 
   }, [pipelineData]);
+  useEffect(() => {
+    if (bAddStep === 'true') {
+      setstepLabelAtIndex(activeStep);
+    }
 
+    console.log("pipelineData ", pipelineData);
 
+  }, [bAddStep]);
+
+  useEffect(() => {
+    if (activeStep !== 0) {
+      setActiveProcess(process[activeStep - 1])
+      setprocessData(process[activeStep - 1])
+    }
+    console.log("activeStep ", activeStep);
+  }, [activeStep]);
   const totalSteps = () => {
     return steps.length;
   };
@@ -220,27 +261,13 @@ const PlCreate = () => {
   };
 
   const handleBack = () => {
-    if (activeStep === 1) { setActiveProcess(process1) }
-    else if (activeStep === 2) { setActiveProcess(process2) }
-    else if (activeStep === 3) { setActiveProcess(process3) }
-    else if (activeStep === 4) { setActiveProcess(process4) }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+
   };
 
   const handleStep = (step) => () => {
-    if (activeStep === 1) { setActiveProcess(process1) }
-    else if (activeStep === 2) { setActiveProcess(process2) }
-    else if (activeStep === 3) { setActiveProcess(process3) }
-    else if (activeStep === 4) { setActiveProcess(process4) }
-    const newActiveStep =
-      /* isLastStep() && !allStepsCompleted()
-         ? // It's the last step, but not all steps have been completed,
-         // find the first step that has been completed
-         steps.findIndex((step, i) => !(i in completed))
-         : */
-      activeStep + 1;
-    setActiveStep(newActiveStep);
     setActiveStep(step);
+
   };
   const handleFinish = () => {
     if (state[0].name != null && state[0].name !== '' && pipelineData[0].processes.length >= 1)
@@ -248,7 +275,12 @@ const PlCreate = () => {
     else seterrMsg("Please add Pipeline Name and atleast one process to create a pipeline.")
 
   };
+  const handleAddStep = () => {
+    console.log("handleAddStep")
+    setbAddstep('true');
+    handleComplete();
 
+  };
   const handleComplete = () => {
     const newCompleted = completed;
     console.log("HandleComplete state[0].name", state[0].name)
@@ -256,32 +288,17 @@ const PlCreate = () => {
       AddtoPipeline();
     if (activeStep === 0 && (state[0].name != null && state[0].name !== ''))
       changeStepLabel(activeStep, state[0].name);
-
-    if (activeStep === 1) {
-      setActiveProcess(process1);
-      if ((process1.name != null && process1.name !== '')) {
-        changeStepLabel(activeStep, process1.name);
+    else {
+      setActiveProcess(process[activeStep - 1]);
+      if ((process[activeStep - 1].name != null && process[activeStep - 1].name !== '')) {
+        changeStepLabel(activeStep, process[activeStep - 1].name);
       }
     }
-    else if (activeStep === 2) {
-      setActiveProcess(process2);
-      if ((process2.name != null && process2.name !== '')) {
-        changeStepLabel(activeStep, process2.name);
-      }
-    }
-    else if (activeStep === 3) {
-      setActiveProcess(process3);
-      if ((process3.name != null && process3.name !== '')) {
-        changeStepLabel(activeStep, process3.name);
-      }
-    }
-    else if (activeStep === 4) {
-      setActiveProcess(process4);
-      if ((process4.name != null && process4.name !== '')) {
-        changeStepLabel(activeStep, process4.name);
-      }
-    }
-
+    //handleNext();
+    console.log("activestep", activeStep)
+    console.log("total steps", totalSteps())
+    newCompleted[activeStep] = true;
+    setCompleted(newCompleted);
     const newActiveStep =
      /* isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
@@ -289,9 +306,8 @@ const PlCreate = () => {
         steps.findIndex((step, i) => !(i in completed))
         : */activeStep + 1;
     setActiveStep(newActiveStep);
-    //handleNext();
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
+    console.log("activestep", newActiveStep)
+    console.log("total steps", totalSteps())
     setprocessData({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
   };
 
@@ -315,10 +331,7 @@ const PlCreate = () => {
     seterrMsg("");
     setsuccMsg("");
     setprocessData({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
-    setprocess1({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
-    setprocess2({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
-    setprocess3({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
-    setprocess4({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
+    setprocess([{ processtemplateid: '', name: '', icon: '', status: '', steps: [] }]);
 
   };
 
@@ -349,11 +362,7 @@ const PlCreate = () => {
           </Alert> : null}
         {bcreatePipeline === 'true' ? (
           <Fragment>
-            {/*<Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you&apos;re finished
-        </Typography>*/}
             <Button sx={{ background: 'rgba(9, 182, 109, 0.15)', mt: 2, mb: 1 }}><Link className="link" to='/Pipelinemgmt/default'><strong>All steps completed - pipeline is ready.</strong></Link></Button>
-
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button onClick={handleReset}>Reset</Button>
@@ -366,11 +375,8 @@ const PlCreate = () => {
                 {/*Step {activeStep + 1}*/}
 
                 {activeStep === 0 ? <SimpleCard title="Create a Pipeline"><SimpleForm setPipelinename={setPipelinename} Pipelinename={state[0].name} setbNameConfirmed={setbNameConfirmed} bNameConfirmed={bNameConfirmed} /></SimpleCard> :
-                  activeStep === 1 ? <><AddProcess key={'process1'} process={process1} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> {(process1.name !== null && process1.name !== '') ? <AddSteps key={"process1Steps"} selsteps={process1.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /> : null}</>
-                    : activeStep === 2 ? <><AddProcess key={'process2'} process={process2} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> {(process2.name !== null && process2.name !== '') ? <AddSteps key={"process2Steps"} selsteps={process2.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /> : null}</>
-                      : activeStep === 3 ? <><AddProcess key={'process3'} process={process3} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> {(process3.name !== null && process3.name !== '') ? <AddSteps key={"process3Steps"} selsteps={process3.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /> : null}</>
-                        : activeStep === 4 ? <><AddProcess key={'process4'} process={process4} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> {(process4.name !== null && process4.name !== '') ? <AddSteps key={"process4Steps"} selsteps={process4.steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /> : null}</>
-                          : <Pipelinetable pipelineData={pipelineData} pipelineName={state[0].name} />}
+                  activeStep < totalSteps() - 1 ? <><AddProcess key={`${activeStep}`} process={processData} AddProcessData={AddProcessData('processData')} preOptions={preOptions} /> {(processData && processData.name !== null && processData && processData.name !== '') ? <AddSteps key={`${activeStep}` + 'steps'} selsteps={process[activeStep - 1].steps} AddProcessData={AddProcessData('stepsData')} preSteps={preSteps} /> : null}</>
+                    : <Pipelinetable pipelineData={pipelineData} pipelineName={state[0].name} />}
 
               </Typography> : <>Loading...</>}
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
@@ -384,23 +390,18 @@ const PlCreate = () => {
                   Back
                 </Button>}
               <Box sx={{ flex: '1 1 auto' }} />
-              {/*  <Button onClick={handleNext} sx={{ mr: 1 }}>
-                Next
-              </Button>
-              <Typography variant="caption" sx={{ display: 'inline-block', color: 'red', mt: '20' }}>
-                    Step {activeStep + 1} already completed
-                </Typography>*/}
-
               {activeStep !== totalSteps() - 1 ?
-                <>{(activeStep > 1) ?
-                  <><Button onClick={handleComplete}>
+                <>{(activeStep >= 1) ?
+                  <><Button onClick={handleAddStep}>
                     Continue to Add Process
-                  </Button><Button onClick={handleFinish}>
+                  </Button><Button onClick={handleComplete}>
+                      Complete Step
+                    </Button><Button onClick={handleFinish}>
                       Finish
                     </Button> </> : <>{(activeStep === totalSteps() - 2) ? <Button onClick={handleFinish}>
                       Finish
                     </Button> : <Button onClick={handleComplete}>
-                      Continue to Add Process
+                      Add Process
                     </Button>}</>} </> : null}
               {activeStep === totalSteps() - 1 && state[0].name != null && state[0].name !== '' && pipelineData[0].processes.length >= 1 ?
                 <><Button onClick={handleReset}>
