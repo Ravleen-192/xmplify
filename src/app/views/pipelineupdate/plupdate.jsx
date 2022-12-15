@@ -77,36 +77,13 @@ const PlUpdate = () => {
   useEffect(() => {
     // console.log("steps", steps)
   }, [steps]);
-  /*
-    useEffect(() => {
-      if ((state[0].name != null || state[0].name !== ''))
-        changeStepLabel(0, state[0].name);
-    }, [state], [state[0].name]);
-  
-    useEffect(() => {
-      if ((pipeline.product.processes[0].name != null || pipeline.product.processes[0].name !== ''))
-        changeStepLabel(1, pipeline.product.processes[0].name);
-    }, [pipeline.product.processes[0].name]);
-  
-    useEffect(() => {
-      if ((pipeline.product.processes[1].name != null || pipeline.product.processes[1].name !== ''))
-        changeStepLabel(2, pipeline.product.processes[1].name);
-    }, [pipeline.product.processes[1].name]);
-  
-    useEffect(() => {
-      if ((pipeline.product.processes[2].name != null || pipeline.product.processes[2].name !== ''))
-        changeStepLabel(3, pipeline.product.processes[2].name);
-    }, [pipeline.product.processes[2].name]);
-  
-    useEffect(() => {
-      if ((pipeline.product.processes[3].name != null || pipeline.product.processes[3].name !== ''))
-        changeStepLabel(4, pipeline.product.processes[3].name);
-    }, [pipeline.product.processes[3].name]);
-  */
 
-  useEffect(() => {
-    const newsteps = [...steps];
+  const initializeProcesses = () => {
+    const newsteps = [...initSteps];
     for (var i = 0; i <= pipeline.product.processes.length; i++) {
+      if (i === 0) {
+        newsteps[i] = pipeline.product.name;
+      }
       if (i !== 0) {
         newsteps[i] = pipeline.product.processes[i - 1].name;
       }
@@ -114,7 +91,11 @@ const PlUpdate = () => {
     newsteps[pipeline.product.processes.length + 1] = "Review and Update Pipeline"
     setSteps(newsteps);
     setprocess(pipeline.product.processes);
-    console.log("CCCCCCCCCCCCCCCCCCCpipeline.product.processes[i]", i, pipeline.product.processes[i]);
+
+  };
+  useEffect(() => {
+
+    initializeProcesses();
 
   }, [pipeline.product], [pipeline.product.processes]);
 
@@ -167,107 +148,70 @@ const PlUpdate = () => {
 
   }, [preSteps]);
 
-  /////////////
-  /*
+
   const updateProcesses = () => {
-    console.log("updateProcesses")
-    console.log(process1)
-    console.log(bsteps1Updated)
-    console.log(bprocess1Updated)
 
-    if (bsteps1Updated === 'false' && bprocess1Updated === 'false') { setprocessData(process1); AddtoPipeline(); setbsteps1Updated('true'); setbprocess1Updated('true') }
-    if (bsteps2Updated === 'false' && bprocess2Updated === 'false') { setprocessData(process2); AddtoPipeline(); setbsteps2Updated('true'); setbprocess2Updated('true') }
-    if (bsteps3Updated === 'false' && bprocess3Updated === 'false') { setprocessData(process3); AddtoPipeline(); setbsteps3Updated('true'); setbprocess3Updated('true') }
-    if (bsteps4Updated === 'false' && bprocess4Updated === 'false') { setprocessData(process4); AddtoPipeline(); setbsteps4Updated('true'); setbprocess4Updated('true') }
 
-    //////////////////
-    if (bsteps1Updated === 'false' && bprocess1Updated === 'true') {
-      let data = { ...processData };
-      data.steps = process1.steps;
-      setbsteps1Updated('true');
-      console.log("data", data)
-      setprocessData(data)
-      AddtoPipeline();
-    }
-    else if (bsteps1Updated === 'true' && bprocess1Updated === 'false') {
-      let data = { ...processData };
-      data.processtemplateid = `${process1.processtemplateid}`;
-      data.name = process1.name;
-      data.icon = process1.icon;
-      data.status = process1.status;
-      setbprocess1Updated('true');
-      console.log("data", data)
-      setprocessData(data)
-      AddtoPipeline();
-    }
-    /////////
-    if (bsteps2Updated === 'false' && bprocess2Updated === 'true') {
-      let data = { ...processData };
-      data.steps = process2.steps;
-      setbsteps2Updated('true');
-      console.log("data", data)
-      setprocessData(data)
-      AddtoPipeline();
-    }
-    else if (bsteps2Updated === 'true' && bprocess2Updated === 'false') {
-      let data = { ...processData };
-      data.processtemplateid = `${process2.processtemplateid}`;
-      data.name = process2.name;
-      data.icon = process2.icon;
-      data.status = process2.status;
-      setbprocess2Updated('true');
-      console.log("data", data)
-      setprocessData(data)
-      AddtoPipeline();
-    }
-    /////////////////////
-    if (bsteps3Updated === 'false' && bprocess3Updated === 'true') {
-      let data = { ...processData };
-      data.steps = process3.steps;
-      setbsteps3Updated('true');
-      console.log("data", data)
-      setprocessData(data)
-      AddtoPipeline();
-    }
-    else if (bsteps3Updated === 'true' && bprocess3Updated === 'false') {
-      let data = { ...processData };
-      data.processtemplateid = `${process3.processtemplateid}`;
-      data.name = process3.name;
-      data.icon = process3.icon;
-      data.status = process3.status;
-      setbprocess3Updated('true');
-      console.log("data", data)
-      setprocessData(data)
-      AddtoPipeline();
-    }
-    //////////////////
-    if (bsteps4Updated === 'false' && bprocess4Updated === 'true') {
-      let data = { ...processData };
-      data.steps = process4.steps;
-      setbsteps4Updated('true');
-      console.log("data", data)
-      setprocessData(data)
-      AddtoPipeline();
-    }
-    else if (bsteps4Updated === 'true' && bprocess4Updated === 'false') {
-      let data = { ...processData };
-      data.processtemplateid = `${process4.processtemplateid}`;
-      data.name = process4.name;
-      data.icon = process4.icon;
-      data.status = process4.status;
-      setbprocess4Updated('true');
-      console.log("data", data)
-      setprocessData(data)
-      AddtoPipeline();
-    }
-  }*/
-  ///////////
-  const AddtoPipeline = () => {
+    for (var i = 0; i < process.length; i++) {
+      if (process[i].bStepsUpdated === 'false' && process[i].bProcessUpdated === 'false') {
+        setprocessData(process[i]);
+        AddtoPipeline(i);
+        process[i].bStepsUpdated = 'true';
+        process[i].bProcessUpdated = 'true';
 
-    setState((prev) => [
-      ...prev.filter((a, i) => i !== 0),
-      { ...prev[0], processes: [...prev[0].processes, { processtemplateid: processData.processtemplateid, name: processData.name, icon: processData.icon, status: processData.status, steps: processData.steps }] }
-    ]);
+      }
+      else if (process[i].bStepsUpdated === 'false' && process[i].bProcessUpdated === 'true') {
+        let data = { ...processData };
+        data.steps = process[i].steps;
+        process[i].bStepsUpdated = 'true';
+        console.log("data", data)
+        setprocessData(data)
+        AddtoPipeline(i);
+
+      }
+      else if (process[i].bStepsUpdated === 'true' && process[i].bProcessUpdated === 'false') {
+        let data = { ...processData };
+        data.processtemplateid = `${process[i].processtemplateid}`;
+        data.name = process[i].name;
+        data.icon = process[i].icon;
+        data.status = process[i].status;
+        data.sequenceid = process[i].sequenceid;
+        process[i].bProcessUpdated = 'true';
+        console.log("data", data)
+        setprocessData(data)
+        AddtoPipeline(i);
+
+      }
+
+
+    }
+
+  }
+  const AddtoPipeline = (index) => {
+    const newItems = [...process];
+    console.log("process and index", process, index);
+    if (index >= process.length) {
+      setState((prev) => [
+        ...prev.filter((a, i) => i !== 0),
+        { ...prev[0], processes: [...prev[0].processes, { processtemplateid: processData.processtemplateid, name: processData.name, icon: processData.icon, status: processData.status, steps: processData.steps }] }
+      ]);
+    }
+    else {//update at index
+      for (var i = 0; i < process.length; i++) {
+        if (i === index)
+
+          newItems[index] = processData;
+
+      }
+      console.log("newItems", newItems);
+      setState((prev) => [
+        ...prev.filter((a, i) => i !== 0),
+        { ...prev[0], processes: newItems }
+      ]);
+    }
+
+
+    /* */
   };
   const LoadProcessData = () => {
     setprocessData(process[activeStep - 1]);
@@ -285,7 +229,7 @@ const PlUpdate = () => {
         data.name = event.name;
         data.icon = event.icon;
         data.status = event.status;
-        data.bprocessUpdated = 'true';
+        data.bProcessUpdated = 'true';
       }
     }
     else if (selectedKey === 'processSeq') {
@@ -310,23 +254,17 @@ const PlUpdate = () => {
 
     newProcesses[index] = data;
     console.log("newProcesses", index, newProcesses)
-
-
     setprocess(newProcesses);
 
   };
   const setstepLabelAtIndex = (activeStep) => {
-    const newsteps = [...steps];
 
+    const newsteps = [...steps];
     newsteps[activeStep] = "Update Process";
     newsteps[activeStep + 1] = "Review and Update Pipeline";
-    console.log("setstepLabelAtIndex", newsteps)
-
     setprocessAtIndex(activeStep - 1, processData);
-
     setSteps(newsteps);
     setbAddstep('false');
-
   };
   useEffect(() => {
 
@@ -334,16 +272,11 @@ const PlUpdate = () => {
 
   }, [process]);
   useEffect(() => {
-
-
-
   }, [steps]);
   useEffect(() => {
     if (bAddStep === 'true') {
       setstepLabelAtIndex(activeStep);
     }
-
-
 
   }, [bAddStep]);
 
@@ -396,21 +329,22 @@ const PlUpdate = () => {
 
 
   const updatePipeline = () => {
-    //updateProcesses();
-    ///////////////////////////
+    updateProcesses();
+
     setbupdatePipeline('true');
   };
   useEffect(() => {
 
   }, [processData]);
-  //////////////////////////////////////////
-  useEffect(() => {
 
+  useEffect(() => {
+    console.log("state", state);
     setpipelineData(state);
-    console.log("state ", state);
+
   }, [state]);
 
   useEffect(() => {
+    console.log("pipelineData", pipelineData);
     if (pipelineData) {
       var strpipeline = pipelineData[0];
       setJpipelineData(strpipeline);
@@ -465,13 +399,17 @@ const PlUpdate = () => {
   };
   const handleComplete = () => {
     const newCompleted = completed;
-    console.log("HandleComplete state[0].name", state)
-
-
-    if (processData && processData.name !== '')
-      AddtoPipeline();
-
     if (!completed[activeStep]) {
+      if (processData && processData.name !== '') {
+        AddtoPipeline(activeStep - 1);
+      }
+      else {
+        console.log("AM I HERE")
+        updateProcesses();
+        AddtoPipeline(activeStep - 1);
+      }
+
+
       if (activeStep === 0 && (state[0].name != null && state[0].name !== ''))
         changeStepLabel(activeStep, state[0].name);
 
@@ -496,6 +434,8 @@ const PlUpdate = () => {
       setprocessData({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
 
     }
+    else
+      seterrMsg("Step Already Completed. Reset to update.")
   };
 
   const handleReset = () => {
@@ -508,7 +448,7 @@ const PlUpdate = () => {
     setbNameConfirmed('false');
     setJpipelineData("");
     setCompleted({});
-    setSteps(initSteps);
+    initializeProcesses();
     setPipeline({ product });
     seterrMsg("");
     setsuccMsg("");
@@ -520,7 +460,7 @@ const PlUpdate = () => {
     ]
     );
     setprocessData({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
-    setprocess([{ processtemplateid: '', name: '', icon: '', status: '', steps: [] }]);
+
   };
 
   return (
@@ -575,19 +515,30 @@ const PlUpdate = () => {
                   Back
                 </Button>}
               <Box sx={{ flex: '1 1 auto' }} />
+              {activeStep === totalSteps() - 2 ? <Button onClick={handleAddStep}>
+                Add New Process
+              </Button> : null}
               {activeStep !== totalSteps() - 1 ?
-                <>{(activeStep >= 1) ?
-                  <><Button onClick={handleAddStep}>
-                    Continue to Update/Add Process
-                  </Button><Button onClick={handleComplete}>
-                      Complete Step
-                    </Button><Button onClick={handleFinish}>
-                      Finish
-                    </Button> </> : <>{(activeStep === totalSteps() - 2) ? <Button onClick={handleFinish}>
-                      Finish
-                    </Button> : <Button onClick={handleComplete}>
-                      Update/Add Process
-                    </Button>}</>} </> : null}
+                <>{activeStep >= 1 ?
+                  <><Button onClick={handleComplete}>
+                    Complete Step
+                  </Button>
+                    {(activeStep === 1) ? null
+                      :
+                      <Button onClick={handleFinish}>
+                        Finish
+                      </Button>} </>
+                  :
+                  <>
+                    {(activeStep === totalSteps() - 2) ?
+                      <Button onClick={handleFinish}>
+                        Finish
+                      </Button>
+                      :
+                      <Button onClick={handleComplete}>
+                        Update Process
+                      </Button>}</>} </>
+                : null}
               {activeStep === totalSteps() - 1 && state[0].name != null && state[0].name !== '' && pipelineData[0].processes.length >= 1 ?
                 <><Button onClick={handleReset}>
                   Reset

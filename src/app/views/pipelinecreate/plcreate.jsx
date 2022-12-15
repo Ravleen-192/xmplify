@@ -270,6 +270,7 @@ const PlCreate = () => {
 
   };
   const handleFinish = () => {
+
     if (state[0].name != null && state[0].name !== '' && pipelineData[0].processes.length >= 1)
       createPipeline();
     else seterrMsg("Please add Pipeline Name and atleast one process to create a pipeline.")
@@ -284,35 +285,40 @@ const PlCreate = () => {
   const handleComplete = () => {
     const newCompleted = completed;
     console.log("HandleComplete state[0].name", state[0].name)
-    if (processData.name !== '')
-      AddtoPipeline();
-    if (activeStep === 0 && (state[0].name != null && state[0].name !== ''))
-      changeStepLabel(activeStep, state[0].name);
-    else {
-      setActiveProcess(process[activeStep - 1]);
-      if ((process[activeStep - 1].name != null && process[activeStep - 1].name !== '')) {
-        changeStepLabel(activeStep, process[activeStep - 1].name);
+    if (!completed[activeStep]) {
+      if (processData.name !== '')
+        AddtoPipeline();
+      if (activeStep === 0 && (state[0].name != null && state[0].name !== ''))
+        changeStepLabel(activeStep, state[0].name);
+      else {
+        setActiveProcess(process[activeStep - 1]);
+        if ((process[activeStep - 1].name != null && process[activeStep - 1].name !== '')) {
+          changeStepLabel(activeStep, process[activeStep - 1].name);
+        }
       }
-    }
-    //handleNext();
-    console.log("activestep", activeStep)
-    console.log("total steps", totalSteps())
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    const newActiveStep =
+      //handleNext();
+      console.log("activestep", activeStep)
+      console.log("total steps", totalSteps())
+      newCompleted[activeStep] = true;
+      setCompleted(newCompleted);
+      const newActiveStep =
      /* isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
         // find the first step that has been completed
         steps.findIndex((step, i) => !(i in completed))
         : */activeStep + 1;
-    setActiveStep(newActiveStep);
-    console.log("activestep", newActiveStep)
-    console.log("total steps", totalSteps())
-    setprocessData({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
+      setActiveStep(newActiveStep);
+      console.log("activestep", newActiveStep)
+      console.log("total steps", totalSteps())
+      setprocessData({ processtemplateid: '', name: '', icon: '', status: '', steps: [] });
+    }
+    else
+      seterrMsg("Step Already Completed. Reset to update.")
   };
 
 
   const handleReset = () => {
+    setSteps({});
     setActiveStep(0);
     setActiveProcess(null);
     setbceatePipeline('false');
@@ -396,9 +402,9 @@ const PlCreate = () => {
                     Continue to Add Process
                   </Button><Button onClick={handleComplete}>
                       Complete Step
-                    </Button><Button onClick={handleFinish}>
+                    </Button>{(activeStep === 1) ? null : <Button onClick={handleFinish}>
                       Finish
-                    </Button> </> : <>{(activeStep === totalSteps() - 2) ? <Button onClick={handleFinish}>
+                    </Button>} </> : <>{(activeStep === totalSteps() - 2) ? <Button onClick={handleFinish}>
                       Finish
                     </Button> : <Button onClick={handleComplete}>
                       Add Process

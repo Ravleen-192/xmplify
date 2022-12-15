@@ -1,7 +1,6 @@
 import { React, useState, useEffect } from "react";
 import TextField from '@mui/material/TextField';
 import PropTypes from 'prop-types';
-import Stack from '@mui/material/Stack';
 import { useTheme, styled } from '@mui/material/styles';
 import { Grid } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
@@ -73,6 +72,7 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
   const [bnewValue, setbnewValue] = useState('false');
 
   const theme = useTheme();
+  console.log("selsteps", selsteps);
   useEffect(() => {
 
   }, [selsteps]);
@@ -120,17 +120,19 @@ export default function AddSteps({ AddProcessData, selsteps, preSteps }) {
           ))
       }*/
       renderOption={(props, steps, { selected }) => {
-        for (var i = 0; i < selectedSteps.length; i++) {
-          if (selectedSteps[i].name === steps.name) {
+        if (selsteps) {
+          for (var i = 0; i < selectedSteps?.length; i++) {
+            if (selectedSteps[i].name === steps.name) {
 
-            selected = true;
-
+              selected = true;
+              steps.sequenceid = selectedSteps[i].sequenceid;
+            }
           }
         }
         { (steps.steptemplateid) % 2 === 0 ? steps.status = "/assets/images/awsicons/greenarr.jpg" : steps.status = "/assets/images/awsicons/redarr.jpg" }
         const tempstepid = `${steps.steptemplateid}`;
         steps.steptemplateid = tempstepid;
-        return (<Grid container spacing={2}>
+        return (<Grid container spacing={2} sx={{ width: '100%' }}>
           <Grid item xs={8} sm={8} md={8} lg={8} xl={8}>
             <li {...props} sx={{ width: '100%' }} >
 
