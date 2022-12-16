@@ -515,9 +515,9 @@ const PlUpdate = () => {
                   Back
                 </Button>}
               <Box sx={{ flex: '1 1 auto' }} />
-              {/* {activeStep === totalSteps() - 2 ? <Button onClick={handleAddStep}>
+              {(activeStep === totalSteps() - 2) ? <Button onClick={handleAddStep}>
                 Add New Process
-              </Button> : null}*/}
+              </Button> : null}
               {activeStep !== totalSteps() - 1 ?
                 <>{activeStep >= 1 ?
                   <><Button onClick={handleComplete}>
