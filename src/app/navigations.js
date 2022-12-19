@@ -18,8 +18,8 @@ export const navigations = [
     /*badge: { value: '30+', color: 'secondary' },*/
     children: [
       { name: 'Pipeline', path: '/pipelinemgmt/default', iconText: 'A' },
-      { name: 'Process', path: '/dashboard/default', iconText: 'B' },
-      { name: 'Process Step', path: '/dashboard/default', iconText: 'C' },
+      { name: 'Process', path: '/pipelinemgmt/pladdnp', iconText: 'B' },
+      { name: 'Process Step', path: '/pipelinemgmt/pladdns', iconText: 'C' },
     ],
   },
   {

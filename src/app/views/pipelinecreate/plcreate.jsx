@@ -28,6 +28,7 @@ const PlCreate = () => {
   const [activeProcess, setActiveProcess] = useState({});
   const [completed, setCompleted] = useState({});
   const [bNameConfirmed, setbNameConfirmed] = useState('false');
+  
   const [bAddStep, setbAddstep] = useState('false');
   const [processData, setprocessData] = useState({ processtemplateid: '', name: '', icon: '', status: '', sequenceid: '', steps: [] });
   const [process, setprocess] = useState([]);

@@ -1,7 +1,7 @@
 import { Grid, styled, useTheme } from '@mui/material';
 import { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
-import RowCards from './shared/RowCards';
+import RowCards from './shared/NPRowCards';
 import StatCards from './shared/StatCards';
 import StatCards2 from './shared/StatCards2';
 

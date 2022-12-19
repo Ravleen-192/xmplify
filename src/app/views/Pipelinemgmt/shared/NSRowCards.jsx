@@ -15,7 +15,7 @@ import { Span } from 'app/components/Typography';
 import { format } from 'date-fns';
 import { Fragment } from 'react';
 
-const ProjectName = styled(Span)(({ theme }) => ({
+const StepName = styled(Span)(({ theme }) => ({
   marginLeft: 24,
   fontWeight: '500',
   [theme.breakpoints.down('sm')]: { marginLeft: 4 },
@@ -44,7 +44,7 @@ const RowCards = () => {
   const { palette } = useTheme();
   const textMuted = palette.text.secondary;
 
-  return [1, 2, 3, 4].map((id) => (
+  return [1].map((id) => (
     <Fragment key={id}>
       <Card sx={{ py: 1, px: 2 }} className="project-card">
         <Grid container alignItems="center">
@@ -52,31 +52,28 @@ const RowCards = () => {
             <Box display="flex" alignItems="center">
               <Checkbox />
               <Hidden smDown>
-                {id % 2 === 1 ? (
-                  <StarOutline size="small">
-                    <Icon>star_outline</Icon>
-                  </StarOutline>
-                ) : (
-                  <DateRange size="small">
-                    <Icon>date_range</Icon>
-                  </DateRange>
-                )}
+
+                <StarOutline size="small">
+                  <Icon>star_outline</Icon>
+                </StarOutline>
+
               </Hidden>
-              <ProjectName>Project {id}</ProjectName>
+              <StepName>Step {id}</StepName>
             </Box>
           </Grid>
 
           <Grid item md={3} xs={4}>
-            <Box color={textMuted}>{format(new Date().getTime(), 'MM/dd/yyyy hh:mma')}</Box>
+            <Box display="flex" position="relative" marginLeft="-0.875rem !important">
+              <StyledAvatar src="/assets/images/awsicons/redarr1.jpg" />
+
+            </Box>
           </Grid>
 
           <Hidden smDown>
             <Grid item xs={3}>
               <Box display="flex" position="relative" marginLeft="-0.875rem !important">
-                <StyledAvatar src="/assets/images/face-4.jpg" />
-                <StyledAvatar src="/assets/images/face-4.jpg" />
-                <StyledAvatar src="/assets/images/face-4.jpg" />
-                <StyledAvatar sx={{ fontSize: '14px' }}>+3</StyledAvatar>
+                <StyledAvatar src="/assets/images/awsicons/Onprem.png" />
+
               </Box>
             </Grid>
           </Hidden>
